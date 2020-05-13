@@ -8,6 +8,10 @@ import java.awt.event.MouseListener;
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
 
+/**
+ * An entity, that when interacting with, will produce a new queue and add it to
+ * the completion queue
+ */
 public class QueueAdder extends Entity implements MouseListener {
 
 	public CompletionQueue q;
@@ -24,17 +28,6 @@ public class QueueAdder extends Entity implements MouseListener {
 		Engine.gp.addMouseListener(this);
 	}
 
-	public void updateGraphic(final Graphics2D g) {
-		g.setColor(Color.black);
-		g.drawRect(x, y, w, h);
-		
-		g.drawString("Add Item", x + 5, y + 15);
-	}
-
-	@Override
-	public void update() {
-	}
-
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		final int mx = e.getX();
@@ -49,6 +42,14 @@ public class QueueAdder extends Entity implements MouseListener {
 	}
 
 	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
 	public void mousePressed(MouseEvent e) {
 	}
 
@@ -57,10 +58,14 @@ public class QueueAdder extends Entity implements MouseListener {
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
+	public void update() {
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
+	public void updateGraphic(final Graphics2D g) {
+		g.setColor(Color.black);
+		g.drawRect(x, y, w, h);
+
+		g.drawString("Add Item", x + 5, y + 15);
 	}
 }

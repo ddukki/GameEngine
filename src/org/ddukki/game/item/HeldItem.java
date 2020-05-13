@@ -7,6 +7,16 @@ public class HeldItem {
 	/** The quantity of the item being held */
 	public int quantity;
 
+	public void difference(HeldItem hi) {
+		if (hi.item != item) {
+			throw new IllegalArgumentException(
+					"The two items must be of the same type!");
+		}
+
+		quantity -= hi.quantity;
+		quantity = quantity < 0 ? 0 : quantity;
+	}
+
 	/**
 	 * @return whether this held item has enough quantity of the same item as
 	 *         the given {@code HeldItem}

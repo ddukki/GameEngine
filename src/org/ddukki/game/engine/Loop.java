@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.ddukki.game.engine.states.QueueState;
 import org.ddukki.game.engine.states.State;
+import org.ddukki.game.ui.menu.Menu;
 
 /***/
 public class Loop implements ActionListener {
@@ -20,6 +21,7 @@ public class Loop implements ActionListener {
 
 	public Loop() {
 		currentState = new QueueState();
+		currentState.addEntity(new Menu());
 		states.add(currentState);
 	}
 
@@ -35,7 +37,7 @@ public class Loop implements ActionListener {
 		updateState();
 		Engine.gp.repaint();
 	}
-	
+
 	public void switchState(final int stateIndex) {
 		currentState.paused = true;
 		currentState = states.get(stateIndex);

@@ -12,19 +12,19 @@ public class Engine {
 	public static GamePanel gp = new GamePanel();
 
 	public static Loop l = new Loop();
-	
+
 	public static void main(String[] args) {
 		final int delay = 1000 / FPS;
 		t = new Timer(delay, l);
 
 		t.start();
-		
+
 		JFrame frame = new JFrame();
 		frame.add(gp);
-		frame.setSize(800, 600);
+		frame.setSize(1024, 768);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
-		
+
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

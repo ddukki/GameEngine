@@ -7,6 +7,12 @@ import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
+/**
+ * The main game panel; all the game's UI will listen to this component for I/O
+ * events from the player.
+ * 
+ * 
+ */
 public class GamePanel extends JPanel {
 
 	/** */
