@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.events.Event;
 
 /**
  * A collection of completion items currently in progress
@@ -24,9 +25,28 @@ public class CompletionQueue extends Entity {
 		ci.q = this;
 	}
 
+	@Override
+	public void react(Event e) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public void remove(CompletionItem ci) {
 		items.remove(ci);
 		ci.q = null;
+	}
+
+	@Override
+	public void update() {
+		final int nItems = items.size();
+
+		// Update the list
+		for (int i = nItems - 1; i >= 0; i--) {
+			final CompletionItem item = items.get(i);
+			item.queueIndex = i;
+
+			item.update();
+		}
 	}
 
 	@Override
@@ -52,19 +72,6 @@ public class CompletionQueue extends Entity {
 
 		for (CompletionItem i : items) {
 			i.updateGraphic(g);
-		}
-	}
-
-	@Override
-	public void update() {
-		final int nItems = items.size();
-
-		// Update the list
-		for (int i = nItems - 1; i >= 0; i--) {
-			final CompletionItem item = items.get(i);
-			item.queueIndex = i;
-
-			item.update();
 		}
 	}
 }

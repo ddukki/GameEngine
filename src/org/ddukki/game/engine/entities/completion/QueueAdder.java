@@ -2,17 +2,17 @@ package org.ddukki.game.engine.entities.completion;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
-import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.events.Event;
+import org.ddukki.game.engine.events.MousedEvent;
+import org.ddukki.game.engine.events.reactors.MousedReactor;
 
 /**
  * An entity, that when interacting with, will produce a new queue and add it to
  * the completion queue
  */
-public class QueueAdder extends Entity implements MouseListener {
+public class QueueAdder extends Entity implements MousedReactor {
 
 	public CompletionQueue q;
 
@@ -24,14 +24,23 @@ public class QueueAdder extends Entity implements MouseListener {
 		h = 100;
 
 		this.q = q;
-
-		Engine.gp.addMouseListener(this);
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-		final int mx = e.getX();
-		final int my = e.getY();
+	public void react(Event e) {
+		if (MousedEvent.class.isInstance(e)) {
+			react((MousedEvent) e);
+		}
+	}
+
+	@Override
+	public void react(MousedEvent me) {
+		if (me.reacted) {
+			return;
+		}
+
+		final int mx = me.x;
+		final int my = me.y;
 
 		if (mx > x && mx < x + w && my > y && my < y + h) {
 
@@ -39,22 +48,7 @@ public class QueueAdder extends Entity implements MouseListener {
 			q.add(new CompletionItem("Item", (int) (1000 * Math.random()), 0));
 		}
 
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
+		me.reacted = true;
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.events.Event;
+import org.ddukki.game.ui.menu.items.MenuItem;
 
 /** A generic class that defines a menu */
 public class Menu extends Entity {
@@ -30,6 +32,11 @@ public class Menu extends Entity {
 	 * coordinates specified by the Entity fields will be used
 	 */
 	private int position = 0;
+
+	@Override
+	public void react(Event e) {
+
+	}
 
 	@Override
 	public void update() {

@@ -9,6 +9,9 @@ public class Event {
 	public String eventName;
 	public Object data;
 
+	/** Whether or not this event has reacted with some reactive entity */
+	public boolean reacted = false;
+
 	public Event(Object data, String name) {
 		this.data = data;
 		this.eventName = name;

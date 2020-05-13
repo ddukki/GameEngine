@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 
 import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.events.Event;
 
 /**
  * An entity that keeps track of the progress of a process currently proceeding
@@ -23,7 +24,8 @@ public class CompletionItem extends Entity {
 
 	private String name = "Item";
 
-	public CompletionItem(final String name, final int endValue,
+	public CompletionItem(final String name,
+			final int endValue,
 			final int currValue) {
 
 		this.name = name;
@@ -34,6 +36,14 @@ public class CompletionItem extends Entity {
 		h = 50;
 	}
 
+	public int getCurrentValue() {
+		return currValue;
+	}
+
+	public int getEndValue() {
+		return endValue;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -42,16 +52,14 @@ public class CompletionItem extends Entity {
 		return queueIndex;
 	}
 
-	public int getCurrentValue() {
-		return currValue;
+	@Override
+	public void react(Event e) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public void setCurrentValue(final int currValue) {
 		this.currValue = currValue;
-	}
-
-	public int getEndValue() {
-		return endValue;
 	}
 
 	public void setEndValue(final int endValue) {

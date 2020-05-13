@@ -1,8 +1,9 @@
-package org.ddukki.game.ui.menu;
+package org.ddukki.game.ui.menu.items;
 
 import java.awt.Graphics2D;
 
 import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.events.Event;
 
 /**
  * An item to be displayed in a menu; this may be text or any other type of
@@ -10,6 +11,12 @@ import org.ddukki.game.engine.entities.Entity;
  * 
  */
 public class MenuItem extends Entity {
+
+	@Override
+	public void react(Event e) {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
 	public void update() {
