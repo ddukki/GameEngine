@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
@@ -17,7 +20,8 @@ import org.ddukki.game.engine.events.MousedEvent;
  * 
  * 
  */
-public class GamePanel extends JPanel implements MouseListener {
+public class GamePanel extends JPanel
+		implements MouseListener, MouseMotionListener, MouseWheelListener {
 
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -35,6 +39,12 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	@Override
+	public void mouseDragged(MouseEvent e) {
+		final MousedEvent me = new MousedEvent(e);
+		Engine.l.react(me);
+	}
+
+	@Override
 	public void mouseEntered(MouseEvent e) {
 	}
 
@@ -43,11 +53,27 @@ public class GamePanel extends JPanel implements MouseListener {
 	}
 
 	@Override
+	public void mouseMoved(MouseEvent e) {
+		final MousedEvent me = new MousedEvent(e);
+		Engine.l.react(me);
+	}
+
+	@Override
 	public void mousePressed(MouseEvent e) {
+		final MousedEvent me = new MousedEvent(e);
+		Engine.l.react(me);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
+		final MousedEvent me = new MousedEvent(e);
+		Engine.l.react(me);
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		final MousedEvent me = new MousedEvent(e);
+		Engine.l.react(me);
 	}
 
 	@Override

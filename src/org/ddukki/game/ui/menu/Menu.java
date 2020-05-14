@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
 import org.ddukki.game.engine.events.Event;
+import org.ddukki.game.engine.events.MousedEvent;
+import org.ddukki.game.engine.events.reactors.MousedReactor;
 import org.ddukki.game.ui.menu.items.MenuItem;
 
 /** A generic class that defines a menu */
-public class Menu extends Entity {
+public class Menu extends Entity implements MousedReactor {
 
 	/** Menu items */
 	public ArrayList<MenuItem> items = new ArrayList<>();
@@ -35,76 +37,86 @@ public class Menu extends Entity {
 
 	@Override
 	public void react(Event e) {
+		if (MousedEvent.class.isInstance(e)) {
+			react((MousedEvent) e);
+		}
+	}
 
+	@Override
+	public void react(MousedEvent me) {
+		if (me.reacted) {
+			return;
+		}
+
+		final int mx = me.x;
+		final int my = me.y;
+
+		if (mx > x && mx < x + w && my > y && my < y + h) {
+			me.reacted = true;
+		}
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		// Determine the width of the menu
+		if (fixedW <= 0) {
+			w = 200;
+
+			for (MenuItem m : items) {
+				if (w < m.w) {
+					w = m.w;
+				}
+			}
+		} else {
+			w = fixedW;
+		}
+
+		// Determine the height of the menu
+		if (fixedH <= 0) {
+			h = 400;
+
+			for (MenuItem m : items) {
+				if (h < m.h) {
+					h = m.h;
+				}
+			}
+		} else {
+			h = fixedH;
+		}
+
+		// determine the position of the menu
+		switch (position) {
+		// LEFT
+		case 0:
+			x = y = 10;
+			break;
+
+		// RIGHT
+		case 1:
+			x = Engine.gp.getWidth() - 10 - w;
+			y = 10;
+			break;
+
+		// CENTER
+		case 2:
+			x = (Engine.gp.getWidth() - w) / 2;
+			y = (Engine.gp.getHeight() - h) / 2;
+			break;
+		default:
+			break;
+		}
 
 	}
 
 	@Override
 	public void updateGraphic(Graphics2D g) {
-		// Determine the width of the menu
-		int width;
-		if (fixedW <= 0) {
-			width = 200;
-
-			for (MenuItem m : items) {
-				if (width < m.w) {
-					width = m.w;
-				}
-			}
-		} else {
-			width = fixedW;
-		}
-
-		// Determine the height of the menu
-		int height;
-		if (fixedH <= 0) {
-			height = 400;
-
-			for (MenuItem m : items) {
-				if (height < m.h) {
-					height = m.h;
-				}
-			}
-		} else {
-			height = fixedH;
-		}
-
-		// Draw the outline of the menu
-		int menuX, menuY;
-		switch (position) {
-		// LEFT
-		case 0:
-			menuX = menuY = 10;
-			break;
-
-		// RIGHT
-		case 1:
-			menuX = Engine.gp.getWidth() - 10 - width;
-			menuY = 10;
-			break;
-
-		// CENTER
-		case 2:
-			menuX = (Engine.gp.getWidth() - width) / 2;
-			menuY = (Engine.gp.getHeight() - height) / 2;
-			break;
-		default:
-			menuX = x;
-			menuY = y;
-			break;
-		}
 
 		g.setColor(Color.white);
-		g.fillRect(menuX, menuY, width, height);
+		g.fillRect(x, y, w, h);
 		g.setColor(Color.black);
-		g.drawRect(menuX, menuY, width, height);
+		g.drawRect(x, y, w, h);
 
-		// Draw each menu item seperately
+		// Draw each menu item separately
 		for (MenuItem m : items) {
 			m.updateGraphic(g);
 		}

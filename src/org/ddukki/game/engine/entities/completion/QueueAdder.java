@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.engine.events.Event;
 import org.ddukki.game.engine.events.MousedEvent;
 import org.ddukki.game.engine.events.reactors.MousedReactor;
@@ -24,6 +25,8 @@ public class QueueAdder extends Entity implements MousedReactor {
 		h = 100;
 
 		this.q = q;
+
+		hbx = new RectangularHitbox(x, y, w, h);
 	}
 
 	@Override
@@ -42,13 +45,13 @@ public class QueueAdder extends Entity implements MousedReactor {
 		final int mx = me.x;
 		final int my = me.y;
 
-		if (mx > x && mx < x + w && my > y && my < y + h) {
+		if (hbx.contains(mx, my) && me.type == MousedEvent.EventType.CLICKED) {
 
 			// Add a completion item
 			q.add(new CompletionItem("Item", (int) (1000 * Math.random()), 0));
-		}
 
-		me.reacted = true;
+			me.reacted = true;
+		}
 	}
 
 	@Override
