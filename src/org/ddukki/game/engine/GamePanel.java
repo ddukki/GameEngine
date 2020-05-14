@@ -1,13 +1,18 @@
 package org.ddukki.game.engine;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
@@ -26,10 +31,22 @@ public class GamePanel extends JPanel
 	/** */
 	private static final long serialVersionUID = 1L;
 	public static DecimalFormat df = new DecimalFormat("##0.###");
+	public Font gameFont;
 
 	public GamePanel() {
 		super();
 		addMouseListener(this);
+		addMouseMotionListener(this);
+
+		try {
+			gameFont = Font
+					.createFont(Font.TRUETYPE_FONT,
+							new File(
+									"C:\\Users\\ddukki\\Downloads\\ARCENA.ttf"))
+					.deriveFont(12f);
+		} catch (FontFormatException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -79,6 +96,10 @@ public class GamePanel extends JPanel
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g.setFont(gameFont);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		g.setColor(Color.WHITE);
 		g.clearRect(0, 0, this.getWidth(), this.getHeight());
@@ -86,6 +107,6 @@ public class GamePanel extends JPanel
 		g.setColor(Color.BLACK);
 		g.drawString(df.format(Loop.frameRate) + " FPS", 10, 10);
 
-		Engine.l.updateGraphics((Graphics2D) g);
+		Engine.l.updateGraphics(g2d);
 	}
 }

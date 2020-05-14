@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ddukki.game.engine.entities.Entity;
-import org.ddukki.game.engine.entities.TestNumberEntity;
 import org.ddukki.game.engine.events.Event;
 import org.ddukki.game.engine.events.reactors.EventReactor;
 
@@ -36,7 +35,6 @@ public class State implements EventReactor {
 	public boolean active = true;
 
 	public State() {
-		entities.add(new TestNumberEntity());
 	}
 
 	public void addEntity(Entity e) {

@@ -6,6 +6,12 @@ public class CircularHitbox extends Hitbox {
 	public int y = 0;
 	public int r = 0;
 
+	public CircularHitbox(final int x, final int y, final int r) {
+		this.x = x;
+		this.y = y;
+		this.r = r;
+	}
+
 	public boolean collide(CircularHitbox ch) {
 		// Find the distance between the two centers
 		final int distX = ch.x - x;
@@ -36,5 +42,4 @@ public class CircularHitbox extends Hitbox {
 
 		return distance < r;
 	}
-
 }

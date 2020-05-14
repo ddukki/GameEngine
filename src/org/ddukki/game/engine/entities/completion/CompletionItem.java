@@ -68,7 +68,7 @@ public class CompletionItem extends Entity {
 
 	@Override
 	public void update() {
-		currValue++;
+		// currValue++;
 
 		if (currValue == 0 && endValue == 0) {
 			currPercentage = 1;
@@ -85,7 +85,7 @@ public class CompletionItem extends Entity {
 	public void updateGraphic(Graphics2D g) {
 		// Find the index of this item in the list
 		x = q.x + 5;
-		y = q.y + 5 + (h + 5) * queueIndex;
+		y = q.y + 5 + (h + 5) * queueIndex - q.queueOffset;
 
 		// Draw main box
 		g.setColor(Color.white);

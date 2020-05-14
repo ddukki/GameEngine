@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.engine.events.Event;
 import org.ddukki.game.engine.events.MousedEvent;
 import org.ddukki.game.engine.events.reactors.MousedReactor;
@@ -35,6 +36,10 @@ public class Menu extends Entity implements MousedReactor {
 	 */
 	private int position = 0;
 
+	public Menu() {
+		hbx = new RectangularHitbox(x, y, w, h);
+	}
+
 	@Override
 	public void react(Event e) {
 		if (MousedEvent.class.isInstance(e)) {
@@ -51,7 +56,10 @@ public class Menu extends Entity implements MousedReactor {
 		final int mx = me.x;
 		final int my = me.y;
 
-		if (mx > x && mx < x + w && my > y && my < y + h) {
+		if (hbx.contains(mx, my) && me.type == MousedEvent.EventType.CLICKED) {
+			position += 1;
+			position %= 3;
+
 			me.reacted = true;
 		}
 	}
@@ -63,9 +71,7 @@ public class Menu extends Entity implements MousedReactor {
 			w = 200;
 
 			for (MenuItem m : items) {
-				if (w < m.w) {
-					w = m.w;
-				}
+				w = w < m.w ? m.w : w;
 			}
 		} else {
 			w = fixedW;
@@ -76,9 +82,7 @@ public class Menu extends Entity implements MousedReactor {
 			h = 400;
 
 			for (MenuItem m : items) {
-				if (h < m.h) {
-					h = m.h;
-				}
+				h = h < m.h ? m.h : h;
 			}
 		} else {
 			h = fixedH;
@@ -106,6 +110,7 @@ public class Menu extends Entity implements MousedReactor {
 			break;
 		}
 
+		hbx = new RectangularHitbox(x, y, w, h);
 	}
 
 	@Override
