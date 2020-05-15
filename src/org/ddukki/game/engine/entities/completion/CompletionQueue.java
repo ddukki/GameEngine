@@ -27,10 +27,11 @@ public class CompletionQueue extends Entity implements ScrolledReactor {
 	/** The offset at which the queue items should be drawn */
 	public int queueOffset = 0;
 
+	/** The scrollbar for when the queue gets too long for the screen */
 	private ScrollBar sb = new ScrollBar();
 
 	public CompletionQueue() {
-		sb.attached = this;
+		sb.scrolledReactors.add(this);
 	}
 
 	/**
@@ -59,8 +60,7 @@ public class CompletionQueue extends Entity implements ScrolledReactor {
 	@Override
 	public void react(ScrolledEvent se) {
 		// Calculate the number of pixels to move the offset
-		int pixelOffset = (int) ((double) se.total / se.shown * se.pscroll);
-		queueOffset = pixelOffset;
+		queueOffset = se.pscroll;
 	}
 
 	public void remove(CompletionItem ci) {
@@ -97,6 +97,26 @@ public class CompletionQueue extends Entity implements ScrolledReactor {
 			sb.current = 0;
 			queueOffset = 0;
 		}
+
+		// Check the position and update this bar's position/size
+		switch (sb.position) {
+		case 0:
+			if (sb.horizontal) {
+				sb.w = w;
+				sb.h = 5;
+
+				sb.x = x;
+				sb.y = y + h;
+			} else {
+				sb.x = x + w;
+				sb.w = 5;
+
+				sb.y = y;
+				sb.h = h;
+			}
+			break;
+		}
+
 	}
 
 	@Override

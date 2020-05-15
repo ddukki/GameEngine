@@ -2,6 +2,7 @@ package org.ddukki.game.ui.scroll;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import org.ddukki.game.engine.entities.Entity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
@@ -11,14 +12,84 @@ import org.ddukki.game.engine.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.ScrolledEvent;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
 
-public class ScrollBar extends Entity implements MousedReactor {
+public class ScrollBar extends Entity {
+
+	/** The scroll entity that will be moved inside the scrollbar parent */
+	private class Scroll extends Entity implements MousedReactor {
+
+		@Override
+		public void react(Event e) {
+			if (MousedEvent.class.isInstance(e)) {
+				react((MousedEvent) e);
+			}
+		}
+
+		@Override
+		public void react(MousedEvent me) {
+			if (me.type == MousedEvent.EventType.BUTTON_DOWN) {
+				if (scroll.hbx.contains(me.x, me.y)) {
+					dx = me.x;
+					dy = me.y;
+				} else {
+					dx = -1;
+					dy = -1;
+				}
+			}
+
+			if (me.type == MousedEvent.EventType.DRAGGED && dx > -1
+					&& dy > -1) {
+				ScrolledEvent se = new ScrolledEvent(null);
+				if (horizontal) {
+					int deltaX = me.x - dx;
+
+					// Update current scroll position
+					current = (int) ((double) total / shown * deltaX);
+
+					se.total = total;
+					se.current = current;
+					se.shown = shown;
+
+					se.pscroll = current;
+				} else {
+					int deltaY = me.y - dy;
+
+					// Update current scroll position
+					current = (int) ((double) total / shown * deltaY);
+
+					se.total = total;
+					se.current = current;
+					se.shown = shown;
+
+					se.pscroll = current;
+				}
+
+				for (ScrolledReactor sr : scrolledReactors) {
+					sr.react(se);
+				}
+			}
+		}
+
+		@Override
+		public void update() {
+			hbx = new RectangularHitbox(x, y, w, h);
+		}
+
+		@Override
+		public void updateGraphic(Graphics2D g) {
+			g.fillRect(scroll.x, scroll.y, scroll.w, scroll.h);
+		}
+
+	}
 
 	public boolean horizontal = false;
+
+	/**
+	 * Whether this scroll bar is set to the left or right of the attached
+	 * entity (if vertical) or to the top or bottom (if horizontal)
+	 */
 	public int position = 0;
 
-	public ScrolledReactor attached = null;
-
-	public RectangularHitbox rhbx = new RectangularHitbox(0, 0, 0, 0);
+	public Scroll scroll = new Scroll();
 
 	/** The entire value range that this bar should represent */
 	public int total = 0;
@@ -29,89 +100,26 @@ public class ScrollBar extends Entity implements MousedReactor {
 	/** The current value at which the scroll is positioned */
 	public int current = 0;
 
+	/** Mouse drag coordinates */
 	private int dx = 0;
 	private int dy = 0;
 
-	public ScrollBar() {
-		w = 5;
-	}
+	/** The list of reactors listening for scrolled events from this bar */
+	public ArrayList<ScrolledReactor> scrolledReactors = new ArrayList<>();
 
 	@Override
 	public void react(Event e) {
-		if (MousedEvent.class.isInstance(e)) {
-			react((MousedEvent) e);
-		}
-	}
-
-	@Override
-	public void react(MousedEvent me) {
-		if (me.type == MousedEvent.EventType.BUTTON_DOWN) {
-			if (rhbx.contains(me.x, me.y)) {
-				dx = me.x;
-				dy = me.y;
-			} else {
-				dx = -1;
-				dy = -1;
-			}
-		}
-
-		if (me.type == MousedEvent.EventType.DRAGGED && dx > -1 && dy > -1) {
-			ScrolledEvent se = new ScrolledEvent(null);
-			if (horizontal) {
-				int deltaX = me.x - dx;
-				se.total = total;
-				se.current = current;
-				se.shown = shown;
-
-				se.pscroll = deltaX;
-
-			} else {
-				int deltaY = me.y - dy;
-				se.total = total;
-				se.current = current;
-				se.shown = shown;
-
-				se.pscroll = deltaY;
-			}
-
-			attached.react(se);
-		}
+		scroll.react(e);
 	}
 
 	@Override
 	public void update() {
-		if (attached == null) {
-			return;
-		}
-
-		// Check the position and update this bar's position/size
-		switch (position) {
-		case 0:
-			if (Entity.class.isInstance(attached)) {
-				Entity aEntity = (Entity) attached;
-				if (horizontal) {
-					w = aEntity.w;
-					h = 5;
-
-					x = aEntity.x;
-					y = aEntity.y + aEntity.h;
-				} else {
-					x = aEntity.x + aEntity.w;
-					w = 5;
-
-					y = aEntity.y;
-					h = aEntity.h;
-				}
-			}
-			break;
-		}
-
 		hbx = new RectangularHitbox(x, y, w, h);
 
 		// Check the size and update the scroll position/size
 		if (total > 0 && shown > 0) {
 			if (horizontal) {
-				rhbx = new RectangularHitbox(x, y, shown, shown);
+				scroll.hbx = new RectangularHitbox(x, y, shown, shown);
 			} else {
 				// Calculate the height of the scroll
 				final int sh = (int) (((double) shown / total) * h);
@@ -119,21 +127,27 @@ public class ScrollBar extends Entity implements MousedReactor {
 				// Calculate the position of the scroll
 				final int sy = (int) (((double) current / total) * h);
 
-				rhbx = new RectangularHitbox(x, y + sy, w, sh);
+				scroll.x = x;
+				scroll.y = y + sy;
+				scroll.w = w;
+				scroll.h = sh;
 			}
 		}
+
+		scroll.update();
 	}
 
 	@Override
 	public void updateGraphic(Graphics2D g) {
 		update();
 
-		if (attached == null) {
+		if (w == 0 || h == 0) {
 			return;
 		}
 
 		g.setColor(Color.black);
 		g.drawRect(x, y, w, h);
-		g.fillRect(rhbx.x, rhbx.y, rhbx.w, rhbx.h);
+
+		scroll.updateGraphic(g);
 	}
 }
