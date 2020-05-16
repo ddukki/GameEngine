@@ -27,13 +27,16 @@ public class ScrollBar extends Entity {
 		@Override
 		public void react(MousedEvent me) {
 			if (me.type == MousedEvent.EventType.BUTTON_DOWN) {
-				if (scroll.hbx.contains(me.x, me.y)) {
+				if (hbx.contains(me.x, me.y)) {
 					dx = me.x;
 					dy = me.y;
-				} else {
-					dx = -1;
-					dy = -1;
+					System.out.println(dy);
 				}
+			}
+
+			if (me.type == MousedEvent.EventType.BUTTON_UP) {
+				dx = -1;
+				dy = -1;
 			}
 
 			if (me.type == MousedEvent.EventType.DRAGGED && dx > -1
@@ -41,27 +44,30 @@ public class ScrollBar extends Entity {
 				ScrolledEvent se = new ScrolledEvent(null);
 				if (horizontal) {
 					int deltaX = me.x - dx;
+					dx = me.x;
 
 					// Update current scroll position
 					current = (int) ((double) total / shown * deltaX);
-
-					se.total = total;
-					se.current = current;
-					se.shown = shown;
-
-					se.pscroll = current;
 				} else {
 					int deltaY = me.y - dy;
+					dy = me.y;
 
 					// Update current scroll position
-					current = (int) ((double) total / shown * deltaY);
-
-					se.total = total;
-					se.current = current;
-					se.shown = shown;
-
-					se.pscroll = current;
+					current += (int) ((double) total / shown * deltaY);
 				}
+
+				if (current > total - shown) {
+					current = total - shown;
+				}
+				if (current < 0) {
+					current = 0;
+				}
+
+				se.total = total;
+				se.current = current;
+				se.shown = shown;
+
+				se.pscroll = current;
 
 				for (ScrolledReactor sr : scrolledReactors) {
 					sr.react(se);
@@ -76,7 +82,7 @@ public class ScrollBar extends Entity {
 
 		@Override
 		public void updateGraphic(Graphics2D g) {
-			g.fillRect(scroll.x, scroll.y, scroll.w, scroll.h);
+			g.fillRect(x, y, w, h);
 		}
 
 	}

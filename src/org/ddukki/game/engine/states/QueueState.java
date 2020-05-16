@@ -16,8 +16,8 @@ public class QueueState extends State {
 
 	public QueueState() {
 		super();
-		entities.add(q);
-		entities.add(a);
+		// entities.add(q);
+		// entities.add(a);
 
 		tf.x = 300;
 		tf.y = 300;

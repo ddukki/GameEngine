@@ -57,34 +57,34 @@ public class GamePanel extends JPanel implements MouseListener,
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		final KeyedEvent ke = new KeyedEvent(e);
+		final KeyedEvent ke = new KeyedEvent(null, e);
 		ke.type = KeyedEvent.EventType.BUTTON_DOWN;
 		Engine.l.react(ke);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		final KeyedEvent ke = new KeyedEvent(e);
+		final KeyedEvent ke = new KeyedEvent(null, e);
 		ke.type = KeyedEvent.EventType.BUTTON_UP;
 		Engine.l.react(ke);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		final KeyedEvent ke = new KeyedEvent(e);
+		final KeyedEvent ke = new KeyedEvent(null, e);
 		ke.type = KeyedEvent.EventType.TYPED;
 		Engine.l.react(ke);
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		final MousedEvent me = new MousedEvent(e);
+		final MousedEvent me = new MousedEvent(null, e);
 		Engine.l.react(me);
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		final MousedEvent me = new MousedEvent(e);
+		final MousedEvent me = new MousedEvent(null, e);
 		Engine.l.react(me);
 	}
 
@@ -98,25 +98,25 @@ public class GamePanel extends JPanel implements MouseListener,
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		final MousedEvent me = new MousedEvent(e);
+		final MousedEvent me = new MousedEvent(null, e);
 		Engine.l.react(me);
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		final MousedEvent me = new MousedEvent(e);
+		final MousedEvent me = new MousedEvent(null, e);
 		Engine.l.react(me);
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		final MousedEvent me = new MousedEvent(e);
+		final MousedEvent me = new MousedEvent(null, e);
 		Engine.l.react(me);
 	}
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		final MousedEvent me = new MousedEvent(e);
+		final MousedEvent me = new MousedEvent(null, e);
 		Engine.l.react(me);
 	}
 

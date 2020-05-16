@@ -21,12 +21,12 @@ public class MousedEvent extends Event {
 	/** Event type */
 	public EventType type = EventType.CLICKED;
 
-	public MousedEvent() {
-		super(null, "MouseEvent");
+	public MousedEvent(Object src) {
+		super(src, "MouseEvent");
 	}
 
-	public MousedEvent(MouseEvent me) {
-		super(me, "MouseEvent");
+	public MousedEvent(Object src, MouseEvent me) {
+		super(src, "MouseEvent");
 
 		x = me.getX();
 		y = me.getY();
@@ -53,8 +53,8 @@ public class MousedEvent extends Event {
 		}
 	}
 
-	public MousedEvent(MouseWheelEvent mwe) {
-		super(mwe, "MouseEvent");
+	public MousedEvent(Object src, MouseWheelEvent mwe) {
+		super(src, "MouseEvent");
 
 		x = mwe.getX();
 		y = mwe.getY();

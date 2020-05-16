@@ -32,8 +32,12 @@ public class KeyedEvent extends Event {
 
 	public int kc = -1;
 
-	public KeyedEvent(KeyEvent ke) {
-		super(ke, "Keyed Event");
+	public KeyedEvent(Object src) {
+		super(src, "Keyed Event");
+	}
+
+	public KeyedEvent(Object src, KeyEvent ke) {
+		super(src, "Keyed Event");
 		tc = ke.getKeyChar();
 
 		switch (ke.getKeyCode()) {
@@ -67,10 +71,6 @@ public class KeyedEvent extends Event {
 		default:
 			break;
 		}
-	}
-
-	public KeyedEvent(Object data) {
-		super(data, "Keyed Event");
 	}
 
 	public static boolean isPunctuation(final char c) {

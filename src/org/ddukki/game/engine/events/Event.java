@@ -7,25 +7,25 @@ package org.ddukki.game.engine.events;
 public class Event {
 
 	public String eventName;
-	public Object data;
+	public Object source;
 
 	/** Whether or not this event has reacted with some reactive entity */
 	public boolean reacted = false;
 
-	public Event(Object data, String name) {
-		this.data = data;
+	public Event(Object src, String name) {
+		this.source = src;
 		this.eventName = name;
-	}
-
-	public Object getData() {
-		return data;
 	}
 
 	public String getName() {
 		return eventName;
 	}
 
-	public void setData(Object data) {
-		this.data = data;
+	public Object getSource() {
+		return source;
+	}
+
+	public void setSource(Object src) {
+		this.source = src;
 	}
 }
