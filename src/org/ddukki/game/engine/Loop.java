@@ -10,7 +10,6 @@ import org.ddukki.game.engine.events.Event;
 import org.ddukki.game.engine.events.reactors.EventReactor;
 import org.ddukki.game.engine.states.QueueState;
 import org.ddukki.game.engine.states.State;
-import org.ddukki.game.ui.menu.Menu;
 
 /**
  * The main game loop that keeps track and updates all states and entities
@@ -26,7 +25,6 @@ public class Loop implements ActionListener, EventReactor {
 
 	public Loop() {
 		currentState = new QueueState();
-		currentState.addEntity(new Menu());
 		states.add(currentState);
 	}
 
