@@ -62,7 +62,15 @@ public class TextFieldUI extends Entity implements KeyedReactor, MousedReactor {
 		if (ke.type == KeyedEvent.EventType.TYPED) {
 			if (Character.isLetterOrDigit(ke.tc) || Character.isSpaceChar(ke.tc)
 					|| KeyedEvent.isPunctuation(ke.tc)) {
-				s = s.concat(String.valueOf(ke.tc));
+
+				if (cPos == s.length()) {
+					s = s.concat(String.valueOf(ke.tc));
+				} else if (cPos == 0) {
+					s = String.valueOf(ke.tc) + s;
+				} else {
+					s = s.substring(0, cPos) + String.valueOf(ke.tc)
+							+ s.substring(cPos);
+				}
 				cPos++;
 				af = pf;
 			}
