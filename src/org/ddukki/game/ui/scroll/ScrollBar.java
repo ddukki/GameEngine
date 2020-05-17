@@ -120,6 +120,9 @@ public class ScrollBar extends Entity {
 
 		@Override
 		public void updateGraphic(Graphics2D g) {
+			if (total < shown) {
+				return;
+			}
 			g.fillRect(x, y, w, h);
 		}
 

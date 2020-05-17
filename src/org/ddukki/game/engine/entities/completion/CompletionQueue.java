@@ -103,13 +103,13 @@ public class CompletionQueue extends Entity implements ScrolledReactor {
 		case 0:
 			if (sb.horizontal) {
 				sb.w = w;
-				sb.h = 5;
+				sb.h = 10;
 
 				sb.x = x;
 				sb.y = y + h;
 			} else {
 				sb.x = x + w;
-				sb.w = 5;
+				sb.w = 10;
 
 				sb.y = y;
 				sb.h = h;

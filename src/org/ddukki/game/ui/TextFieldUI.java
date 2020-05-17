@@ -3,6 +3,8 @@ package org.ddukki.game.ui;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
@@ -10,8 +12,10 @@ import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.KeyedEvent;
 import org.ddukki.game.ui.events.MousedEvent;
+import org.ddukki.game.ui.events.SubmittedEvent;
 import org.ddukki.game.ui.events.reactors.KeyedReactor;
 import org.ddukki.game.ui.events.reactors.MousedReactor;
+import org.ddukki.game.ui.events.reactors.SubmittedReactor;
 
 /** A simple textfield for typing in characters */
 public class TextFieldUI extends Entity implements KeyedReactor, MousedReactor {
@@ -36,6 +40,8 @@ public class TextFieldUI extends Entity implements KeyedReactor, MousedReactor {
 
 	/** The amount by which the field is offset in the x-direction */
 	private int fOffset = 0;
+
+	public List<SubmittedReactor> submittedReactors = new ArrayList<>();
 
 	@Override
 	public void react(Event e) {
@@ -79,6 +85,11 @@ public class TextFieldUI extends Entity implements KeyedReactor, MousedReactor {
 			} else if (ke.kc == KeyedEvent.KC_END) {
 				cPos = s.length();
 				af = pf;
+			} else if (ke.kc == KeyedEvent.KC_ENTER) {
+				SubmittedEvent se = new SubmittedEvent(this);
+				for (SubmittedReactor sr : submittedReactors) {
+					sr.react(se);
+				}
 			}
 
 			// Delete the character before the cursor
@@ -112,6 +123,9 @@ public class TextFieldUI extends Entity implements KeyedReactor, MousedReactor {
 				&& hbx.contains(me.x, me.y)) {
 			mX = me.x;
 			Engine.keyFocus = this;
+		} else if (Engine.keyFocus == this
+				&& me.type == MousedEvent.EventType.BUTTON_UP) {
+			Engine.keyFocus = null;
 		}
 	}
 

@@ -21,10 +21,10 @@ import org.ddukki.game.util.ArrayUtil;
 public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 
 	/** List of strings that represent each index */
-	public List<String> strings = new ArrayList<>();
+	private List<String> strings = new ArrayList<>();
 
 	/** The list of selected elements */
-	public List<Boolean> selected = new ArrayList<>();
+	private List<Boolean> selected = new ArrayList<>();
 
 	/** Whether or not multi-select is enabled */
 	public boolean multi = false;
@@ -40,6 +40,11 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 
 	public ListUI() {
 		sb.scrolledReactors.add(this);
+	}
+
+	public void addItem(String s) {
+		strings.add(s);
+		selected.add(false);
 	}
 
 	@Override
@@ -65,6 +70,10 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 
 			// Find the index of the mouse click
 			final int i = my / fsh;
+
+			if (i >= selected.size() || i < 0) {
+				return;
+			}
 
 			// Set the selection
 			if (!multi || (me.mod & MousedEvent.CTRL_MASK) == 0) {
@@ -116,7 +125,7 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 
 			g.setColor(Color.black);
 			String s = strings.get(i);
-			g.drawString(s, x, y + fsh * i + sh - fOffset);
+			g.drawString(s, x + 10, y + fsh * i + sh - fOffset);
 		}
 		g.setClip(null);
 		sb.updateGraphic(g);
