@@ -9,9 +9,11 @@ import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.ui.events.Event;
+import org.ddukki.game.ui.events.KeyedEvent;
 import org.ddukki.game.ui.events.MousedEvent;
 import org.ddukki.game.ui.events.ScrolledEvent;
 import org.ddukki.game.ui.events.SelectedEvent;
+import org.ddukki.game.ui.events.reactors.KeyedReactor;
 import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
 import org.ddukki.game.ui.events.reactors.SelectedReactor;
@@ -19,7 +21,8 @@ import org.ddukki.game.ui.scroll.ScrollBar;
 import org.ddukki.game.util.ArrayUtil;
 
 /** The UI element that displays an array of entities in a vertical list */
-public class ListUI extends UIEntity implements MousedReactor, ScrolledReactor {
+public class ListUI extends UIEntity
+		implements MousedReactor, ScrolledReactor, KeyedReactor {
 
 	/** List of strings that represent each index */
 	private List<String> strings = new ArrayList<>();
@@ -59,39 +62,65 @@ public class ListUI extends UIEntity implements MousedReactor, ScrolledReactor {
 		if (ScrolledEvent.class.isInstance(e) && e.getSource() == sb) {
 			react((ScrolledEvent) e);
 		}
+		if (KeyedEvent.class.isInstance(e)) {
+			react((KeyedEvent) e);
+		}
+	}
+
+	@Override
+	public void react(KeyedEvent ke) {
+		if (Engine.keyFocus != this) {
+			return;
+		}
+
+		if (ke.type == KeyedEvent.EventType.BUTTON_DOWN) {
+			final boolean[] sb = ArrayUtil.toArray(selected);
+			final int[] indices = ArrayUtil.indices(sb);
+			if (indices.length == 0 || multi == true) {
+				return;
+			}
+
+			switch (ke.kc) {
+			case KeyedEvent.KC_UP:
+				if (indices[0] < 0) {
+					return;
+				}
+
+				select(indices[0] - 1, false);
+				break;
+			case KeyedEvent.KC_DOWN:
+				if (indices[0] >= strings.size()) {
+					return;
+				}
+
+				select(indices[0] + 1, false);
+				break;
+			}
+		}
 	}
 
 	@Override
 	public void react(MousedEvent me) {
 		sb.react(me);
 
-		if (me.type == MousedEvent.EventType.BUTTON_UP
-				&& hbx.contains(me.x, me.y)
-				&& !me.reacted) {
+		if (me.type == MousedEvent.EventType.BUTTON_UP) {
+			if (hbx.contains(me.x, me.y) && !me.reacted) {
 
-			// Normalize the mouse click to the list
-			final int my = me.y - y + fOffset;
+				Engine.keyFocus = this;
 
-			// Find the index of the mouse click
-			final int i = my / fsh;
+				// Normalize the mouse click to the list
+				final int my = me.y - y + fOffset;
 
-			if (i >= selected.size() || i < 0) {
-				return;
-			}
+				// Find the index of the mouse click
+				final int i = my / fsh;
 
-			// Set the selection
-			if (!multi || (me.mod & MousedEvent.CTRL_MASK) == 0) {
-				for (int j = 0; j < selected.size(); j++) {
-					selected.set(j, false);
-				}
-			}
-			selected.set(i, true);
+				// Control held
+				final boolean m = (me.mod & MousedEvent.CTRL_MASK) != 0;
 
-			// Emit selection event
-			final SelectedEvent se = new SelectedEvent(this);
-			se.selection = ArrayUtil.toArray(selected);
-			for (SelectedReactor sr : selectedReactors) {
-				sr.react(se);
+				select(i, m);
+
+			} else if (Engine.keyFocus == this) {
+				Engine.keyFocus = null;
 			}
 		}
 	}
@@ -99,6 +128,27 @@ public class ListUI extends UIEntity implements MousedReactor, ScrolledReactor {
 	@Override
 	public void react(ScrolledEvent se) {
 		fOffset = se.pscroll;
+	}
+
+	public void select(final int i, final boolean m) {
+		if (i >= selected.size() || i < 0) {
+			return;
+		}
+
+		// Set the selection
+		if (!multi || !m) {
+			for (int j = 0; j < selected.size(); j++) {
+				selected.set(j, false);
+			}
+		}
+		selected.set(i, true);
+
+		// Emit selection event
+		final SelectedEvent se = new SelectedEvent(this);
+		se.selection = ArrayUtil.toArray(selected);
+		for (SelectedReactor sr : selectedReactors) {
+			sr.react(se);
+		}
 	}
 
 	@Override

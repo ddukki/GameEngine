@@ -11,16 +11,16 @@ public class KeyedEvent extends Event {
 			TYPED, BUTTON_DOWN, BUTTON_UP
 	}
 
-	public static int KC_LEFT = 0x000;
-	public static int KC_RIGHT = 0x001;
-	public static int KC_UP = 0x002;
-	public static int KC_DOWN = 0x003;
+	public static final int KC_LEFT = 0x000;
+	public static final int KC_RIGHT = 0x001;
+	public static final int KC_UP = 0x002;
+	public static final int KC_DOWN = 0x003;
 
-	public static int KC_ENTER = 0x004;
-	public static int KC_BACK_SPACE = 0x005;
-	public static int KC_DELETE = 0x006;
-	public static int KC_HOME = 0x007;
-	public static int KC_END = 0x008;
+	public static final int KC_ENTER = 0x004;
+	public static final int KC_BACK_SPACE = 0x005;
+	public static final int KC_DELETE = 0x006;
+	public static final int KC_HOME = 0x007;
+	public static final int KC_END = 0x008;
 
 	/** The type of keyed event that occurred */
 	public EventType type = EventType.TYPED;

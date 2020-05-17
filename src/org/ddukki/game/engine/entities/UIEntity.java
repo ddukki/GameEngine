@@ -17,6 +17,16 @@ public abstract class UIEntity implements EventReactor {
 	 */
 	public Hitbox hbx;
 
+	public void setDimensions(final int nx,
+			final int ny,
+			final int nw,
+			final int nh) {
+		x = nx;
+		y = ny;
+		w = nw;
+		h = nh;
+	}
+
 	/**
 	 * Should update internal data in relation to the current game state
 	 */

@@ -18,7 +18,8 @@ import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.SubmittedReactor;
 
 /** A simple textfield for typing in characters */
-public class TextFieldUI extends UIEntity implements KeyedReactor, MousedReactor {
+public class TextFieldUI extends UIEntity
+		implements KeyedReactor, MousedReactor {
 
 	/** The stored string that is displayed in the field */
 	public String s = "";
@@ -29,14 +30,11 @@ public class TextFieldUI extends UIEntity implements KeyedReactor, MousedReactor
 	/** The current position of the animated cursor */
 	public int aPos = 0;
 
-	/** Animated frame number */
+	/** Animated frame number for moving cursor */
 	public int pf = 5, af = 0;
 
-	/** The frame counter for cursor animation */
+	/** The frame counter for blinking cursor animation */
 	private int fc = 0;
-
-	/** The last place the mouse was clicked within the textfield */
-	private int mX = -1;
 
 	/** The amount by which the field is offset in the x-direction */
 	private int fOffset = 0;
@@ -127,9 +125,48 @@ public class TextFieldUI extends UIEntity implements KeyedReactor, MousedReactor
 		 * cursor at one of the ends
 		 */
 		if ((me.type == MousedEvent.EventType.CLICKED
-				|| me.type == MousedEvent.EventType.BUTTON_UP)
+				|| me.type == MousedEvent.EventType.BUTTON_UP) && !me.reacted
 				&& hbx.contains(me.x, me.y)) {
-			mX = me.x;
+			int mX = me.x;
+
+			// Update the bounding box of the string onscreen
+			FontMetrics fm = Engine.gp.fm;
+
+			// Calculate the width of the string
+			int sw = fm.stringWidth(s);
+			int sh = fm.getHeight();
+
+			/** Keep track of the hitbox of the string */
+			RectangularHitbox sbx = new RectangularHitbox(x + 4, y, sw, sh);
+
+			// offset the mouse by the field offset
+			mX += fOffset;
+
+			// If mouse position is at the extreme end of the string, set it
+			if (mX > sbx.x + sbx.w) {
+				cPos = s.length();
+			} else if (mX < sbx.x) {
+				cPos = 0;
+			} else {
+				// Loop through the string and find the closest char
+				int minDiff = Integer.MAX_VALUE;
+				for (int i = 0; i < s.length(); i++) {
+					int sub = fm.stringWidth(s.substring(0, i));
+					int diff = Math.abs(mX - (sbx.x + sub));
+					if (diff < minDiff) {
+						cPos = i;
+						minDiff = diff;
+					}
+				}
+			}
+
+			// Calculate cursor position
+			if (cPos > s.length()) {
+				cPos = s.length();
+				af = pf;
+			}
+
+			me.reacted = true;
 			Engine.keyFocus = this;
 		} else if (Engine.keyFocus == this
 				&& me.type == MousedEvent.EventType.BUTTON_UP) {
@@ -143,15 +180,17 @@ public class TextFieldUI extends UIEntity implements KeyedReactor, MousedReactor
 
 		// Increment the frame count and loop every 60 frames
 		fc = (fc + 1) % 60;
-	}
 
-	@Override
-	public void updateGraphic(Graphics2D g) {
 		// Update the bounding box of the string onscreen
-		FontMetrics fm = g.getFontMetrics();
+		FontMetrics fm = Engine.gp.fm;
 
 		// Calculate the width of the string
 		int sw = fm.stringWidth(s);
+		int sh = fm.getHeight();
+
+		/** Keep track of the hitbox of the string */
+		RectangularHitbox sbx = new RectangularHitbox(x + 4, y, sw, sh);
+
 		/*
 		 * Reset the offset if the width of the field is big enough for the
 		 * whole of the string
@@ -160,49 +199,6 @@ public class TextFieldUI extends UIEntity implements KeyedReactor, MousedReactor
 			fOffset = 0;
 		}
 
-		/** Keep track of the hitbox of the string */
-		RectangularHitbox sbx =
-				new RectangularHitbox(x + 4, y, sw, fm.getHeight());
-
-		g.setColor(Color.black);
-		g.drawRect(x, y, w, h);
-
-		// Set the clip bounds
-		g.setClip(x + 2, y + 2, w - 4, h - 4);
-
-		g.drawString(s, sbx.x - fOffset, y + sbx.h);
-
-		// Update the cursor position if mX is not negative
-		if (mX > -1) {
-			// offset the mouse by the field offset
-			mX += fOffset;
-
-			// If the mouse position is at the extreme end of the string, set it
-			if (mX > sbx.x + sbx.w) {
-				cPos = s.length();
-			} else if (mX < sbx.x) {
-				cPos = 0;
-			} else {
-				// Otherwise loop through the string and find the closest char
-				int minDiff = Integer.MAX_VALUE;
-				for (int i = 0; i < s.length(); i++) {
-					int diff = Math.abs(
-							mX - (sbx.x + fm.stringWidth(s.substring(0, i))));
-					if (diff < minDiff) {
-						cPos = i;
-						minDiff = diff;
-					}
-				}
-			}
-
-			mX = -1;
-		}
-
-		// Calculate cursor position
-		if (cPos > s.length()) {
-			cPos = s.length();
-			af = pf;
-		}
 		final int scX = fm.stringWidth(s.substring(0, cPos));
 		final int pcX = scX + sbx.x - fOffset;
 
@@ -225,6 +221,27 @@ public class TextFieldUI extends UIEntity implements KeyedReactor, MousedReactor
 
 			af--;
 		}
+	}
+
+	@Override
+	public void updateGraphic(Graphics2D g) {
+		// Update the bounding box of the string onscreen
+		FontMetrics fm = Engine.gp.fm;
+
+		// Calculate the width of the string
+		int sw = fm.stringWidth(s);
+
+		/** Keep track of the hitbox of the string */
+		RectangularHitbox sbx =
+				new RectangularHitbox(x + 4, y, sw, fm.getHeight());
+
+		g.setColor(Color.black);
+		g.drawRect(x, y, w, h);
+
+		// Set the clip bounds
+		g.setClip(x + 2, y + 2, w - 4, h - 4);
+
+		g.drawString(s, sbx.x - fOffset, y + sbx.h);
 
 		if (fc < 30 && Engine.keyFocus == this) {
 			g.drawLine(aPos, sbx.y + 2, aPos, sbx.y + sbx.h);
