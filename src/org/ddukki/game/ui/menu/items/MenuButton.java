@@ -2,10 +2,10 @@ package org.ddukki.game.ui.menu.items;
 
 import java.awt.Graphics2D;
 
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.ui.events.Event;
 
-public class MenuButton extends Entity {
+public class MenuButton extends UIEntity {
 
 	@Override
 	public void react(Event e) {

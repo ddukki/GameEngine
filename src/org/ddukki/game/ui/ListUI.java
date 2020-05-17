@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ddukki.game.engine.Engine;
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.MousedEvent;
@@ -14,11 +14,12 @@ import org.ddukki.game.ui.events.ScrolledEvent;
 import org.ddukki.game.ui.events.SelectedEvent;
 import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
+import org.ddukki.game.ui.events.reactors.SelectedReactor;
 import org.ddukki.game.ui.scroll.ScrollBar;
 import org.ddukki.game.util.ArrayUtil;
 
 /** The UI element that displays an array of entities in a vertical list */
-public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
+public class ListUI extends UIEntity implements MousedReactor, ScrolledReactor {
 
 	/** List of strings that represent each index */
 	private List<String> strings = new ArrayList<>();
@@ -34,6 +35,9 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 
 	/** String heights */
 	public int sh = 0, fsh = 0;
+
+	/** Selected reactors that are listening to this entity */
+	public List<SelectedReactor> selectedReactors = new ArrayList<>();
 
 	/***/
 	private ScrollBar sb = new ScrollBar();
@@ -86,7 +90,9 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 			// Emit selection event
 			final SelectedEvent se = new SelectedEvent(this);
 			se.selection = ArrayUtil.toArray(selected);
-			Engine.l.react(se);
+			for (SelectedReactor sr : selectedReactors) {
+				sr.react(se);
+			}
 		}
 	}
 

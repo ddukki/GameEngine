@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import org.ddukki.game.engine.Engine;
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.MousedEvent;
@@ -13,7 +13,7 @@ import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.menu.items.MenuItem;
 
 /** A generic class that defines a menu */
-public class MenuUI extends Entity implements MousedReactor {
+public class MenuUI extends UIEntity implements MousedReactor {
 
 	/** Menu items */
 	public ArrayList<MenuItem> items = new ArrayList<>();

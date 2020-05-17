@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ddukki.game.engine.states.QueueState;
 import org.ddukki.game.engine.states.State;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.reactors.EventReactor;
@@ -22,11 +21,6 @@ public class Loop implements ActionListener, EventReactor {
 
 	public static List<State> states = new ArrayList<>();
 	public static State currentState;
-
-	public Loop() {
-		currentState = new QueueState();
-		states.add(currentState);
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

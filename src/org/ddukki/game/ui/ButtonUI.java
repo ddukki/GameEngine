@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ddukki.game.engine.Engine;
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.MousedEvent;
@@ -16,7 +16,7 @@ import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.SubmittedReactor;
 
 /** A UI that acts as a button entity */
-public class ButtonUI extends Entity implements MousedReactor {
+public class ButtonUI extends UIEntity implements MousedReactor {
 
 	/** The list of reactors that are listening to events from this button */
 	public List<SubmittedReactor> submittedReactors = new ArrayList<>();

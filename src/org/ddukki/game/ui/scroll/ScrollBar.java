@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 import org.ddukki.game.engine.Engine;
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.MousedEvent;
@@ -13,10 +13,10 @@ import org.ddukki.game.ui.events.ScrolledEvent;
 import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
 
-public class ScrollBar extends Entity {
+public class ScrollBar extends UIEntity {
 
 	/** The scroll entity that will be moved inside the scrollbar parent */
-	private class Scroll extends Entity implements MousedReactor {
+	private class Scroll extends UIEntity implements MousedReactor {
 
 		private void boundsCheck() {
 			if (current > total - shown) {

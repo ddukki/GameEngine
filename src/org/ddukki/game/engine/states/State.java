@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.reactors.EventReactor;
 
@@ -19,7 +19,7 @@ import org.ddukki.game.ui.events.reactors.EventReactor;
 public class State implements EventReactor {
 
 	/** The list of entities that this state has */
-	public List<Entity> entities = new ArrayList<>();
+	public List<UIEntity> entities = new ArrayList<>();
 
 	/**
 	 * Whether or not this state is paused; if {@code true} this state will not
@@ -37,7 +37,7 @@ public class State implements EventReactor {
 	public State() {
 	}
 
-	public void addEntity(Entity e) {
+	public void addEntity(UIEntity e) {
 		entities.add(e);
 	}
 
@@ -59,7 +59,7 @@ public class State implements EventReactor {
 			return;
 		}
 
-		for (Entity e : entities) {
+		for (UIEntity e : entities) {
 			e.update();
 		}
 	}
@@ -70,7 +70,7 @@ public class State implements EventReactor {
 			return;
 		}
 
-		for (Entity e : entities) {
+		for (UIEntity e : entities) {
 			e.updateGraphic(g);
 		}
 	}

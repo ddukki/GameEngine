@@ -4,14 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.ui.events.Event;
 
 /**
  * An entity that keeps track of the progress of a process currently proceeding
  * 
  */
-public class CompletionItem extends Entity {
+public class CompletionItem extends UIEntity {
 	protected CompletionQueue q;
 	protected int queueIndex = 0;
 

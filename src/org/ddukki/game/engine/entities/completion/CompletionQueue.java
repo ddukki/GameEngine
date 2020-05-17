@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ddukki.game.engine.Engine;
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.ScrolledEvent;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
@@ -16,7 +16,7 @@ import org.ddukki.game.ui.scroll.ScrollBar;
  * A collection of completion items currently in progress
  * 
  */
-public class CompletionQueue extends Entity implements ScrolledReactor {
+public class CompletionQueue extends UIEntity implements ScrolledReactor {
 
 	/** The list of completion items in the queue */
 	private List<CompletionItem> items = new ArrayList<>();

@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import org.ddukki.game.engine.entities.hitbox.Hitbox;
 import org.ddukki.game.ui.events.reactors.EventReactor;
 
-public abstract class Entity implements EventReactor {
+public abstract class UIEntity implements EventReactor {
 	public int x = 0;
 	public int y = 0;
 	public int w = 0;

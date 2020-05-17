@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ddukki.game.engine.Engine;
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.KeyedEvent;
@@ -18,7 +18,7 @@ import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.SubmittedReactor;
 
 /** A simple textfield for typing in characters */
-public class TextFieldUI extends Entity implements KeyedReactor, MousedReactor {
+public class TextFieldUI extends UIEntity implements KeyedReactor, MousedReactor {
 
 	/** The stored string that is displayed in the field */
 	public String s = "";
