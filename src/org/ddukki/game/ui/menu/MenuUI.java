@@ -13,7 +13,7 @@ import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.menu.items.MenuItem;
 
 /** A generic class that defines a menu */
-public class Menu extends Entity implements MousedReactor {
+public class MenuUI extends Entity implements MousedReactor {
 
 	/** Menu items */
 	public ArrayList<MenuItem> items = new ArrayList<>();
@@ -36,7 +36,7 @@ public class Menu extends Entity implements MousedReactor {
 	 */
 	private int position = 0;
 
-	public Menu() {
+	public MenuUI() {
 		hbx = new RectangularHitbox(x, y, w, h);
 	}
 

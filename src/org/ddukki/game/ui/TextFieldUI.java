@@ -14,7 +14,7 @@ import org.ddukki.game.ui.events.reactors.KeyedReactor;
 import org.ddukki.game.ui.events.reactors.MousedReactor;
 
 /** A simple textfield for typing in characters */
-public class TextField extends Entity implements KeyedReactor, MousedReactor {
+public class TextFieldUI extends Entity implements KeyedReactor, MousedReactor {
 
 	/** The stored string that is displayed in the field */
 	public String s = "";
