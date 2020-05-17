@@ -54,21 +54,11 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 
 	@Override
 	public void react(MousedEvent me) {
-		if (me.type == MousedEvent.EventType.BUTTON_DOWN
-				&& sb.hbx.contains(me.x, me.y)) {
-			sb.react(me);
-			return;
-		}
-
-		if (me.type == MousedEvent.EventType.DRAGGED
-				&& sb.hbx.contains(me.x, me.y)) {
-			sb.react(me);
-			return;
-		}
+		sb.react(me);
 
 		if (me.type == MousedEvent.EventType.BUTTON_UP
-				&& hbx.contains(me.x, me.y)) {
-			sb.react(me);
+				&& hbx.contains(me.x, me.y)
+				&& !me.reacted) {
 			// Check whether the CTRL button is down
 
 			// Normalize the mouse click to the list
@@ -115,7 +105,7 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 	@Override
 	public void updateGraphic(Graphics2D g) {
 		g.drawRect(x, y, w, h);
-		// g.setClip(x, y, w, h);
+		g.setClip(x, y, w, h);
 
 		boolean[] sel = ArrayUtil.toArray(selected);
 		for (int i = 0; i < strings.size(); i++) {

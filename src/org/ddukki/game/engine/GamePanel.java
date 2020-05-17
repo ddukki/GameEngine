@@ -21,6 +21,7 @@ import java.text.DecimalFormat;
 import javax.swing.JPanel;
 
 import org.ddukki.game.engine.events.MousedEvent;
+import org.ddukki.game.engine.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.KeyedEvent;
 
 /**
@@ -35,6 +36,7 @@ public class GamePanel extends JPanel implements MouseListener,
 	public static DecimalFormat df = new DecimalFormat("##0.###");
 	public Font gameFont;
 	public FontMetrics fm;
+	public MousedReactor mouseFocus = null;
 
 	public GamePanel() {
 		super();
