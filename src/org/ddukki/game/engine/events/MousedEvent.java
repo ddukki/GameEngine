@@ -5,9 +5,19 @@ import java.awt.event.MouseWheelEvent;
 
 public class MousedEvent extends Event {
 
+	/** The type of moused event that occurred */
 	public enum EventType {
 			CLICKED, BUTTON_DOWN, BUTTON_UP, MOVED, DRAGGED, SCROLLED
 	}
+
+	/** Indicates that the CTRL button was held while the event occurred */
+	public static final int CTRL_MASK = 0x01;
+
+	/** Indicates that the Shift button was held while the event occurred */
+	public static final int SHIFT_MASK = 0x02;
+
+	/** Indicates that the ALT button was held while the event occurred */
+	public static final int ALT_MASK = 0x04;
 
 	/** The x coordinate at which the mouse event occurred */
 	public int x = 0;
@@ -18,6 +28,9 @@ public class MousedEvent extends Event {
 	/** The amount the mouse wheel was scrolled */
 	public int s = 0;
 
+	/** Modifier mask for what buttons were held while the event occurred */
+	public int mod = 0;
+
 	/** Event type */
 	public EventType type = EventType.CLICKED;
 
@@ -27,6 +40,17 @@ public class MousedEvent extends Event {
 
 	public MousedEvent(Object src, MouseEvent me) {
 		super(src, "MouseEvent");
+
+		final int metamasks = me.getModifiersEx();
+		if ((metamasks & MouseEvent.ALT_DOWN_MASK) != 0) {
+			mod |= ALT_MASK;
+		}
+		if ((metamasks & MouseEvent.SHIFT_DOWN_MASK) != 0) {
+			mod |= SHIFT_MASK;
+		}
+		if ((metamasks & MouseEvent.CTRL_DOWN_MASK) != 0) {
+			mod |= CTRL_MASK;
+		}
 
 		x = me.getX();
 		y = me.getY();

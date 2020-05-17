@@ -59,7 +59,6 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 		if (me.type == MousedEvent.EventType.BUTTON_UP
 				&& hbx.contains(me.x, me.y)
 				&& !me.reacted) {
-			// Check whether the CTRL button is down
 
 			// Normalize the mouse click to the list
 			final int my = me.y - y + fOffset;
@@ -68,7 +67,7 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 			final int i = my / fsh;
 
 			// Set the selection
-			if (!multi) {
+			if (!multi || (me.mod & MousedEvent.CTRL_MASK) == 0) {
 				for (int j = 0; j < selected.size(); j++) {
 					selected.set(j, false);
 				}
