@@ -7,11 +7,11 @@ import java.awt.Graphics2D;
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
-import org.ddukki.game.engine.events.Event;
-import org.ddukki.game.engine.events.MousedEvent;
-import org.ddukki.game.engine.events.reactors.MousedReactor;
+import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.KeyedEvent;
+import org.ddukki.game.ui.events.MousedEvent;
 import org.ddukki.game.ui.events.reactors.KeyedReactor;
+import org.ddukki.game.ui.events.reactors.MousedReactor;
 
 /** A simple textfield for typing in characters */
 public class TextField extends Entity implements KeyedReactor, MousedReactor {

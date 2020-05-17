@@ -2,8 +2,6 @@ package org.ddukki.game.ui.events;
 
 import java.awt.event.KeyEvent;
 
-import org.ddukki.game.engine.events.Event;
-
 /**
  * Defines a key event that has occurred
  */

@@ -1,6 +1,5 @@
 package org.ddukki.game.ui.events.reactors;
 
-import org.ddukki.game.engine.events.reactors.EventReactor;
 import org.ddukki.game.ui.events.ScrolledEvent;
 
 public interface ScrolledReactor extends EventReactor {

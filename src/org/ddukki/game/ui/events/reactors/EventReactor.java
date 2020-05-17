@@ -1,6 +1,6 @@
-package org.ddukki.game.engine.events.reactors;
+package org.ddukki.game.ui.events.reactors;
 
-import org.ddukki.game.engine.events.Event;
+import org.ddukki.game.ui.events.Event;
 
 /** The general interface for reacting to events */
 public interface EventReactor {

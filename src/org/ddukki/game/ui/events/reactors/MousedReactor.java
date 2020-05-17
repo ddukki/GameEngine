@@ -1,6 +1,6 @@
-package org.ddukki.game.engine.events.reactors;
+package org.ddukki.game.ui.events.reactors;
 
-import org.ddukki.game.engine.events.MousedEvent;
+import org.ddukki.game.ui.events.MousedEvent;
 
 public interface MousedReactor extends EventReactor {
 

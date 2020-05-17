@@ -6,10 +6,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ddukki.game.engine.events.Event;
-import org.ddukki.game.engine.events.reactors.EventReactor;
 import org.ddukki.game.engine.states.QueueState;
 import org.ddukki.game.engine.states.State;
+import org.ddukki.game.ui.events.Event;
+import org.ddukki.game.ui.events.reactors.EventReactor;
 
 /**
  * The main game loop that keeps track and updates all states and entities

@@ -1,4 +1,4 @@
-package org.ddukki.game.engine.events;
+package org.ddukki.game.ui.events;
 
 /**
  * The class that defines a notifying event; this event can be passed with

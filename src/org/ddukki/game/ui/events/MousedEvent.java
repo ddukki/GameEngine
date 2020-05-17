@@ -1,4 +1,4 @@
-package org.ddukki.game.engine.events;
+package org.ddukki.game.ui.events;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;

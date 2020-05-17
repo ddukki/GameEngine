@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
-import org.ddukki.game.engine.events.Event;
+import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.ScrolledEvent;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
 import org.ddukki.game.ui.scroll.ScrollBar;

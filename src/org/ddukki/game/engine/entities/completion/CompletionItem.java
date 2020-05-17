@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 
 import org.ddukki.game.engine.entities.Entity;
-import org.ddukki.game.engine.events.Event;
+import org.ddukki.game.ui.events.Event;
 
 /**
  * An entity that keeps track of the progress of a process currently proceeding

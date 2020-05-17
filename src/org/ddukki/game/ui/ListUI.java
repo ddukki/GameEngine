@@ -8,11 +8,11 @@ import java.util.List;
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.Entity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
-import org.ddukki.game.engine.events.Event;
-import org.ddukki.game.engine.events.MousedEvent;
-import org.ddukki.game.engine.events.reactors.MousedReactor;
+import org.ddukki.game.ui.events.Event;
+import org.ddukki.game.ui.events.MousedEvent;
 import org.ddukki.game.ui.events.ScrolledEvent;
 import org.ddukki.game.ui.events.SelectedEvent;
+import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
 import org.ddukki.game.ui.scroll.ScrollBar;
 import org.ddukki.game.util.ArrayUtil;
@@ -120,7 +120,5 @@ public class ListUI extends Entity implements MousedReactor, ScrolledReactor {
 		}
 		g.setClip(null);
 		sb.updateGraphic(g);
-
-		g.drawString("fOffset: " + fOffset, 600, 300);
 	}
 }

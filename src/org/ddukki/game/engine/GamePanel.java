@@ -20,9 +20,9 @@ import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 
-import org.ddukki.game.engine.events.MousedEvent;
-import org.ddukki.game.engine.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.KeyedEvent;
+import org.ddukki.game.ui.events.MousedEvent;
+import org.ddukki.game.ui.events.reactors.MousedReactor;
 
 /**
  * The main game panel; all the game's UI will listen to this component for I/O
@@ -46,9 +46,8 @@ public class GamePanel extends JPanel implements MouseListener,
 		addMouseMotionListener(this);
 
 		try {
-			gameFont = Font
-					.createFont(Font.TRUETYPE_FONT,
-							new File("C:\\Windows\\Fonts\\consola.ttf"))
+			File fontFile = new File("C:\\Windows\\Fonts\\consola.ttf");
+			gameFont = Font.createFont(Font.TRUETYPE_FONT, fontFile)
 					.deriveFont(12f);
 		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();

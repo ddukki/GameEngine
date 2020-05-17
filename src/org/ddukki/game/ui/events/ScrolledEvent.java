@@ -1,7 +1,5 @@
 package org.ddukki.game.ui.events;
 
-import org.ddukki.game.engine.events.Event;
-
 public class ScrolledEvent extends Event {
 
 	/** The currently held information by the scrolled entity */

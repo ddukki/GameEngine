@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ddukki.game.engine.entities.Entity;
-import org.ddukki.game.engine.events.Event;
-import org.ddukki.game.engine.events.reactors.EventReactor;
+import org.ddukki.game.ui.events.Event;
+import org.ddukki.game.ui.events.reactors.EventReactor;
 
 /**
  * This class is responsible for keeping track of a single state space of the

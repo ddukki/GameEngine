@@ -5,9 +5,9 @@ import java.awt.Graphics2D;
 
 import org.ddukki.game.engine.entities.Entity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
-import org.ddukki.game.engine.events.Event;
-import org.ddukki.game.engine.events.MousedEvent;
-import org.ddukki.game.engine.events.reactors.MousedReactor;
+import org.ddukki.game.ui.events.Event;
+import org.ddukki.game.ui.events.MousedEvent;
+import org.ddukki.game.ui.events.reactors.MousedReactor;
 
 /**
  * An entity, that when interacting with, will produce a new queue and add it to

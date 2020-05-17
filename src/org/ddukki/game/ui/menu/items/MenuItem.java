@@ -3,7 +3,7 @@ package org.ddukki.game.ui.menu.items;
 import java.awt.Graphics2D;
 
 import org.ddukki.game.engine.entities.Entity;
-import org.ddukki.game.engine.events.Event;
+import org.ddukki.game.ui.events.Event;
 
 /**
  * An item to be displayed in a menu; this may be text or any other type of

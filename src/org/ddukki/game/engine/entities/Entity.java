@@ -3,7 +3,7 @@ package org.ddukki.game.engine.entities;
 import java.awt.Graphics2D;
 
 import org.ddukki.game.engine.entities.hitbox.Hitbox;
-import org.ddukki.game.engine.events.reactors.EventReactor;
+import org.ddukki.game.ui.events.reactors.EventReactor;
 
 public abstract class Entity implements EventReactor {
 	public int x = 0;
