@@ -54,6 +54,10 @@ public class ListUI extends UIEntity
 		selected.add(false);
 	}
 
+	public int count() {
+		return strings.size();
+	}
+
 	@Override
 	public void react(Event e) {
 		if (MousedEvent.class.isInstance(e)) {
@@ -130,6 +134,11 @@ public class ListUI extends UIEntity
 		fOffset = se.pscroll;
 	}
 
+	public void removeItem(int i) {
+		strings.remove(i);
+		selected.remove(false);
+	}
+
 	public void select(final int i, final boolean m) {
 		if (i >= selected.size() || i < 0) {
 			return;
@@ -149,6 +158,10 @@ public class ListUI extends UIEntity
 		for (SelectedReactor sr : selectedReactors) {
 			sr.react(se);
 		}
+	}
+
+	public void setItem(int i, String s) {
+		strings.set(i, s);
 	}
 
 	@Override

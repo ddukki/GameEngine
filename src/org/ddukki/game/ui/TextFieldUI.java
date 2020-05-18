@@ -160,12 +160,6 @@ public class TextFieldUI extends UIEntity
 				}
 			}
 
-			// Calculate cursor position
-			if (cPos > s.length()) {
-				cPos = s.length();
-				af = pf;
-			}
-
 			me.reacted = true;
 			Engine.keyFocus = this;
 		} else if (Engine.keyFocus == this
@@ -199,6 +193,12 @@ public class TextFieldUI extends UIEntity
 			fOffset = 0;
 		}
 
+		// Calculate cursor position
+		if (cPos > s.length()) {
+			cPos = s.length();
+			af = pf;
+		}
+
 		final int scX = fm.stringWidth(s.substring(0, cPos));
 		final int pcX = scX + sbx.x - fOffset;
 
@@ -230,10 +230,10 @@ public class TextFieldUI extends UIEntity
 
 		// Calculate the width of the string
 		int sw = fm.stringWidth(s);
+		int sh = fm.getHeight();
 
 		/** Keep track of the hitbox of the string */
-		RectangularHitbox sbx =
-				new RectangularHitbox(x + 4, y, sw, fm.getHeight());
+		RectangularHitbox sbx = new RectangularHitbox(x + 4, y, sw, sh);
 
 		g.setColor(Color.black);
 		g.drawRect(x, y, w, h);
