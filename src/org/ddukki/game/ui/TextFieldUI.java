@@ -219,7 +219,8 @@ public class TextFieldUI extends UIEntity
 				aPos += (pcX - aPos) / af;
 			}
 
-			af--;
+			if (af > 0)
+				af--;
 		}
 	}
 
