@@ -54,6 +54,34 @@ public class ListUI extends UIEntity
 		selected.add(false);
 	}
 
+	/**
+	 * A single-use way of ensuring that the selected index (if non-multi) is
+	 * visible given the offset; updates the offset if that is not the case
+	 */
+	private void checkSelectionView() {
+		// Find the number of selected components
+		int[] indices = ArrayUtil.indices(ArrayUtil.toArray(selected));
+		if (multi || indices.length == 0) {
+			return;
+		}
+
+		// Get the selected index
+		final int si = indices[0];
+
+		// Get the min and max y of the selected index
+		int minY = y + si * fsh - fOffset;
+		int maxY = minY + fsh;
+
+		if (minY < y) {
+			fOffset -= y - minY;
+		} else if (maxY > y + h) {
+			fOffset += maxY - (y + h);
+		}
+
+		// Update the scrollbar
+		sb.setCurrent(fOffset);
+	}
+
 	public int count() {
 		return strings.size();
 	}
@@ -91,6 +119,7 @@ public class ListUI extends UIEntity
 				}
 
 				select(indices[0] - 1, false);
+				checkSelectionView();
 				break;
 			case KeyedEvent.KC_DOWN:
 				if (indices[0] >= strings.size()) {
@@ -98,6 +127,7 @@ public class ListUI extends UIEntity
 				}
 
 				select(indices[0] + 1, false);
+				checkSelectionView();
 				break;
 			}
 		}
@@ -181,6 +211,7 @@ public class ListUI extends UIEntity
 
 	@Override
 	public void updateGraphic(Graphics2D g) {
+		g.setColor(Engine.keyFocus == this ? Color.blue : Color.black);
 		g.drawRect(x, y, w, h);
 		g.setClip(x, y, w, h);
 

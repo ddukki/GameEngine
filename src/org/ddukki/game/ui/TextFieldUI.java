@@ -236,12 +236,13 @@ public class TextFieldUI extends UIEntity
 		/** Keep track of the hitbox of the string */
 		RectangularHitbox sbx = new RectangularHitbox(x + 4, y, sw, sh);
 
-		g.setColor(Color.black);
+		g.setColor(Engine.keyFocus == this ? Color.blue : Color.black);
 		g.drawRect(x, y, w, h);
 
 		// Set the clip bounds
 		g.setClip(x + 2, y + 2, w - 4, h - 4);
 
+		g.setColor(Color.black);
 		g.drawString(s, sbx.x - fOffset, y + sbx.h);
 
 		if (fc < 30 && Engine.keyFocus == this) {

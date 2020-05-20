@@ -149,14 +149,24 @@ public class ScrollBar extends UIEntity {
 
 	/** Mouse drag coordinates */
 	private int dx = -1;
-	private int dy = -1;
 
+	private int dy = -1;
 	/** The list of reactors listening for scrolled events from this bar */
 	public ArrayList<ScrolledReactor> scrolledReactors = new ArrayList<>();
 
 	@Override
 	public void react(Event e) {
 		scroll.react(e);
+	}
+
+	public void setCurrent(int nc) {
+		current = nc;
+
+		// Calculate scroll position using current value
+		double factor = (double) total / ScrollBar.this.h;
+
+		// Update current scroll position
+		scroll.y = (int) (y + current / factor);
 	}
 
 	@Override

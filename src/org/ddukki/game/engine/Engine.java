@@ -26,6 +26,8 @@ public class Engine extends JFrame {
 		final int delay = 1000 / FPS;
 		t = new Timer(delay, l);
 
+		setFocusTraversalKeysEnabled(false);
+
 		t.start();
 
 		// The frame has the key listener, as a JPanel seems to not respond
