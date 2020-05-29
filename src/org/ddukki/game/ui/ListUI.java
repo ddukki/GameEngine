@@ -136,9 +136,10 @@ public class ListUI extends UIEntity
 	@Override
 	public void react(MousedEvent me) {
 		sb.react(me);
+		boolean contained = hbx.contains(me.x, me.y);
 
 		if (me.type == MousedEvent.EventType.BUTTON_UP) {
-			if (hbx.contains(me.x, me.y) && !me.reacted) {
+			if (contained && !me.reacted) {
 
 				Engine.keyFocus = this;
 
@@ -156,6 +157,12 @@ public class ListUI extends UIEntity
 			} else if (Engine.keyFocus == this) {
 				Engine.keyFocus = null;
 			}
+		}
+		if (me.type == MousedEvent.EventType.SCROLLED && contained) {
+			final int scroll = me.s * 20;
+			fOffset += scroll;
+			setOffsetBounds();
+			sb.setCurrent(fOffset);
 		}
 	}
 
@@ -192,6 +199,14 @@ public class ListUI extends UIEntity
 
 	public void setItem(int i, String s) {
 		strings.set(i, s);
+	}
+
+	private void setOffsetBounds() {
+		if (fOffset > fsh * strings.size() - h) {
+			fOffset = fsh * strings.size() - h;
+		} else if (fOffset < 0) {
+			fOffset = 0;
+		}
 	}
 
 	@Override

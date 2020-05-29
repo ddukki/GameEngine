@@ -44,6 +44,7 @@ public class GamePanel extends JPanel implements MouseListener,
 		// NOTE: The frame has the keylistener as the JPanel does not respond
 		addMouseListener(this);
 		addMouseMotionListener(this);
+		addMouseWheelListener(this);
 
 		try {
 			File fontFile = new File("C:\\Windows\\Fonts\\consola.ttf");

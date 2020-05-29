@@ -82,7 +82,7 @@ public class MousedEvent extends Event {
 
 		x = mwe.getX();
 		y = mwe.getY();
-		s = mwe.getScrollAmount();
+		s = mwe.getWheelRotation();
 
 		type = EventType.SCROLLED;
 	}
