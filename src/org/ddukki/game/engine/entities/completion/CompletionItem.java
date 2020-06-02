@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.text.DecimalFormat;
 
-import org.ddukki.game.engine.entities.Entity;
+import org.ddukki.game.engine.entities.UIEntity;
+import org.ddukki.game.ui.events.Event;
 
 /**
  * An entity that keeps track of the progress of a process currently proceeding
  * 
  */
-public class CompletionItem extends Entity {
+public class CompletionItem extends UIEntity {
 	protected CompletionQueue q;
 	protected int queueIndex = 0;
 
@@ -23,7 +24,8 @@ public class CompletionItem extends Entity {
 
 	private String name = "Item";
 
-	public CompletionItem(final String name, final int endValue,
+	public CompletionItem(final String name,
+			final int endValue,
 			final int currValue) {
 
 		this.name = name;
@@ -34,6 +36,14 @@ public class CompletionItem extends Entity {
 		h = 50;
 	}
 
+	public int getCurrentValue() {
+		return currValue;
+	}
+
+	public int getEndValue() {
+		return endValue;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -42,16 +52,14 @@ public class CompletionItem extends Entity {
 		return queueIndex;
 	}
 
-	public int getCurrentValue() {
-		return currValue;
+	@Override
+	public void react(Event e) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public void setCurrentValue(final int currValue) {
 		this.currValue = currValue;
-	}
-
-	public int getEndValue() {
-		return endValue;
 	}
 
 	public void setEndValue(final int endValue) {
@@ -60,7 +68,7 @@ public class CompletionItem extends Entity {
 
 	@Override
 	public void update() {
-		currValue++;
+		// currValue++;
 
 		if (currValue == 0 && endValue == 0) {
 			currPercentage = 1;
@@ -77,7 +85,7 @@ public class CompletionItem extends Entity {
 	public void updateGraphic(Graphics2D g) {
 		// Find the index of this item in the list
 		x = q.x + 5;
-		y = q.y + 5 + (h + 5) * queueIndex;
+		y = q.y + 5 + (h + 5) * queueIndex - q.queueOffset;
 
 		// Draw main box
 		g.setColor(Color.white);
