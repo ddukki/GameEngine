@@ -2,9 +2,9 @@ package org.ddukki.game.engine.states;
 
 import org.ddukki.game.engine.entities.completion.CompletionItem;
 import org.ddukki.game.engine.entities.completion.CompletionQueue;
-import org.ddukki.game.ui.ButtonUI;
 import org.ddukki.game.ui.ListUI;
 import org.ddukki.game.ui.TextFieldUI;
+import org.ddukki.game.ui.button.TextButtonUI;
 import org.ddukki.game.ui.events.SubmittedEvent;
 import org.ddukki.game.ui.events.reactors.SubmittedReactor;
 
@@ -15,11 +15,11 @@ import org.ddukki.game.ui.events.reactors.SubmittedReactor;
 public class QueueState extends State implements SubmittedReactor {
 
 	CompletionQueue q = new CompletionQueue();
-	ButtonUI addCompletion = new ButtonUI();
+	TextButtonUI addCompletion = new TextButtonUI();
 
 	ListUI items = new ListUI();
 	TextFieldUI tf = new TextFieldUI();
-	ButtonUI addList = new ButtonUI();
+	TextButtonUI addList = new TextButtonUI();
 
 	public QueueState() {
 		super();
