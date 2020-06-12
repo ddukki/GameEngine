@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.ddukki.game.engine.Engine;
 import org.ddukki.game.engine.entities.UIEntity;
 import org.ddukki.game.engine.entities.hitbox.RectangularHitbox;
+import org.ddukki.game.ui.button.ButtonUI;
 import org.ddukki.game.ui.events.Event;
 import org.ddukki.game.ui.events.MousedEvent;
 import org.ddukki.game.ui.events.ScrolledEvent;
@@ -14,6 +15,88 @@ import org.ddukki.game.ui.events.reactors.MousedReactor;
 import org.ddukki.game.ui.events.reactors.ScrolledReactor;
 
 public class ScrollBar extends UIEntity {
+
+	private class Bar extends UIEntity implements MousedReactor {
+
+		@Override
+		public void react(Event e) {
+		}
+
+		@Override
+		public void react(MousedEvent me) {
+		}
+
+		@Override
+		public void update() {
+			hbx = new RectangularHitbox(x, y, w, h);
+		}
+
+		@Override
+		public void updateGraphic(Graphics2D g) {
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(x, y, w, h);
+
+			g.setColor(Color.black);
+			g.drawRect(x, y, w, h);
+		}
+	}
+
+	private class DownArrow extends ButtonUI implements MousedReactor {
+
+		@Override
+		public void react(MousedEvent me) {
+			if (hbx.contains(me.x, me.y) && !me.reacted
+					&& me.type == MousedEvent.EventType.CLICKED) {
+				current += total / 10;
+				if (current > total - shown + 1) {
+					current = total - shown + 1;
+				}
+
+				scroll.updateFromCurrent();
+
+				// Create scrolled event and fire
+				ScrolledEvent se = new ScrolledEvent(this);
+				se.total = total;
+				se.current = current;
+				se.shown = shown;
+				se.pscroll = current;
+				for (ScrolledReactor sr : scrolledReactors) {
+					sr.react(se);
+				}
+
+				me.reacted = true;
+			}
+		}
+
+		@Override
+		public void update() {
+			hbx = new RectangularHitbox(x, y, w, h);
+		}
+
+		@Override
+		public void updateGraphic(Graphics2D g) {
+			g.setColor(Color.white);
+			g.fillRect(x, y, w, h);
+
+			g.setColor(Color.black);
+			g.drawRect(x, y, w, h);
+
+			// Calculate location and size of triangle
+			final int tw = h / 3;
+			final int tx = x + (h / 6) + 1;
+			final int ty = y + tw;
+
+			final int[] txpl = new int[] { tx, tx + tw, tx + tw };
+			final int[] typl = new int[] { ty, ty + tw, ty };
+
+			final int[] txpr = new int[] { tx + tw, tx + tw, tx + 2 * tw };
+			final int[] typr = new int[] { ty, ty + tw, ty };
+
+			// Draw two triangles, one from the left and one from the right
+			g.fillPolygon(txpl, typl, 3);
+			g.fillPolygon(txpr, typr, 3);
+		}
+	}
 
 	/** The scroll entity that will be moved inside the scrollbar parent */
 	private class Scroll extends UIEntity implements MousedReactor {
@@ -88,8 +171,8 @@ public class ScrollBar extends UIEntity {
 					y += deltaY;
 
 					// Define some needed numbers
-					double factor = (double) total / ScrollBar.this.h;
-					int scrollY = y - ScrollBar.this.y;
+					double factor = (double) total / bar.h;
+					int scrollY = y - bar.y;
 
 					// Update current scroll position
 					current = (int) (factor * scrollY);
@@ -118,6 +201,19 @@ public class ScrollBar extends UIEntity {
 			hbx = new RectangularHitbox(x, y, w, h);
 		}
 
+		/**
+		 * Updates the position from the current variable in the main scrollbar
+		 * class
+		 */
+		public void updateFromCurrent() {
+			// Define some needed numbers
+			double factor = (double) total / bar.h;
+
+			// Update current scroll position
+			y = (int) (current / factor) + bar.y;
+
+		}
+
 		@Override
 		public void updateGraphic(Graphics2D g) {
 			if (total < shown) {
@@ -125,7 +221,63 @@ public class ScrollBar extends UIEntity {
 			}
 			g.fillRect(x, y, w, h);
 		}
+	}
 
+	private class UpArrow extends ButtonUI implements MousedReactor {
+
+		@Override
+		public void react(MousedEvent me) {
+			if (hbx.contains(me.x, me.y) && !me.reacted
+					&& me.type == MousedEvent.EventType.CLICKED) {
+				current -= total / 10;
+				if (current < 0) {
+					current = 0;
+				}
+
+				scroll.updateFromCurrent();
+
+				// Create scrolled event and fire
+				ScrolledEvent se = new ScrolledEvent(this);
+				se.total = total;
+				se.current = current;
+				se.shown = shown;
+				se.pscroll = current;
+				for (ScrolledReactor sr : scrolledReactors) {
+					sr.react(se);
+				}
+
+				me.reacted = true;
+			}
+		}
+
+		@Override
+		public void update() {
+			hbx = new RectangularHitbox(x, y, w, h);
+		}
+
+		@Override
+		public void updateGraphic(Graphics2D g) {
+			g.setColor(Color.white);
+			g.fillRect(x, y, w, h);
+
+			g.setColor(Color.black);
+			g.drawRect(x, y, w, h);
+
+			// Calculate location and size of triangle
+			final int tw = h / 3;
+			final int tx = x + (h / 6) + 1;
+			final int ty = y + tw;
+
+			final int[] txpl = new int[] { tx, tx + tw, tx + tw };
+			final int[] typl = new int[] { ty + tw, ty, ty + tw };
+
+			final int[] txpr = new int[] { tx + tw, tx + tw, tx + 2 * tw };
+			final int[] typr = new int[] { ty + tw, ty, ty + tw };
+
+			// Draw two triangles, one from the left and one from the right
+			g.fillPolygon(txpl, typl, 3);
+			g.fillPolygon(txpr, typr, 3);
+		}
 	}
 
 	public boolean horizontal = false;
@@ -136,7 +288,13 @@ public class ScrollBar extends UIEntity {
 	 */
 	public int position = 0;
 
+	public Bar bar = new Bar();
+
 	public Scroll scroll = new Scroll();
+
+	public UpArrow upBtn = new UpArrow();
+
+	public DownArrow downBtn = new DownArrow();
 
 	/** The entire value range that this bar should represent */
 	public int total = 0;
@@ -156,22 +314,31 @@ public class ScrollBar extends UIEntity {
 
 	@Override
 	public void react(Event e) {
+		upBtn.react(e);
 		scroll.react(e);
+		downBtn.react(e);
 	}
 
 	public void setCurrent(int nc) {
 		current = nc;
 
 		// Calculate scroll position using current value
-		double factor = (double) total / ScrollBar.this.h;
+		double factor = (double) total / bar.h;
 
 		// Update current scroll position
-		scroll.y = (int) (y + current / factor);
+		scroll.y = (int) (bar.y + current / factor);
 	}
 
 	@Override
 	public void update() {
 		hbx = new RectangularHitbox(x, y, w, h);
+
+		bar.x = x;
+		bar.y = y + w;
+		bar.w = w;
+		bar.h = h - 2 * w;
+
+		bar.update();
 
 		// Check the size and update the scroll position/size
 		if (total > 0 && shown > 0) {
@@ -181,7 +348,7 @@ public class ScrollBar extends UIEntity {
 
 				scroll.x = x;
 				scroll.w = sw;
-				scroll.h = h;
+				scroll.h = bar.h;
 
 				if (scroll.x < x) {
 					scroll.x = x;
@@ -191,22 +358,34 @@ public class ScrollBar extends UIEntity {
 				}
 			} else {
 				// Calculate the height of the scroll
-				final int sh = (int) (((double) shown / total) * h);
+				final int sh = (int) (((double) shown / total) * bar.h);
 
 				scroll.x = x;
 				scroll.w = w;
 				scroll.h = sh;
 
-				if (scroll.y < y) {
-					scroll.y = y;
+				if (scroll.y < bar.y) {
+					scroll.y = bar.y;
 				}
-				if (scroll.y > y + h - sh) {
-					scroll.y = y + h - sh;
+				if (scroll.y > bar.y + bar.h - sh) {
+					scroll.y = bar.y + bar.h - sh;
 				}
 			}
 		}
 
 		scroll.update();
+
+		upBtn.x = x;
+		upBtn.y = y;
+		upBtn.w = w;
+		upBtn.h = w;
+		upBtn.update();
+
+		downBtn.x = x;
+		downBtn.y = y + upBtn.h + bar.h;
+		downBtn.w = w;
+		downBtn.h = w;
+		downBtn.update();
 	}
 
 	@Override
@@ -217,9 +396,9 @@ public class ScrollBar extends UIEntity {
 			return;
 		}
 
-		g.setColor(Color.black);
-		g.drawRect(x, y, w, h);
-
+		bar.updateGraphic(g);
 		scroll.updateGraphic(g);
+		upBtn.updateGraphic(g);
+		downBtn.updateGraphic(g);
 	}
 }

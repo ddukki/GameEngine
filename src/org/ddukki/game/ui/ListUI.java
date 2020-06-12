@@ -220,7 +220,7 @@ public class ListUI extends UIEntity
 		sb.shown = h;
 		sb.x = x + w;
 		sb.y = y;
-		sb.w = 10;
+		sb.w = 15;
 		sb.h = h;
 	}
 
