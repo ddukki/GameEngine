@@ -13,7 +13,7 @@ public class CloudGenerator extends JPanel {
 
 	public static void main(String[] args) {
 		final int originalSize = 32;
-		final int levels = 6;
+		final int levels = 4;
 		final int size = originalSize * (int) Math.pow(2, levels);
 
 		JFrame j = new JFrame();
