@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="dev"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/OneDuckUtilities"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
