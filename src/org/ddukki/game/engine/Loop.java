@@ -24,15 +24,6 @@ public class Loop implements ActionListener, EventReactor {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		final long thisFrame = System.nanoTime();
-		final long frame = thisFrame - lastFrame;
-
-		frameRate = 1000_000_000d / frame;
-
-		lastFrame = thisFrame;
-
-		updateState();
-		Engine.gp.repaint();
 	}
 
 	@Override
@@ -45,6 +36,33 @@ public class Loop implements ActionListener, EventReactor {
 		final int l = states.size();
 		for (int i = l - 1; i >= 0; i--) {
 			states.get(i).react(e);
+		}
+	}
+
+	public void start() {
+
+		while (true) {
+			final long thisFrame = System.nanoTime();
+			final long thisFrameTime = thisFrame - lastFrame;
+
+			final long targetTime = (long) (1000_000_000d / Engine.FPS);
+			final long waitTime = (targetTime - thisFrameTime) / 1000_000;
+
+			if (thisFrameTime < targetTime) {
+				try {
+					Thread.sleep(waitTime);
+				} catch (InterruptedException e) {
+					System.out.println("Loop interrupt!");
+				}
+			}
+
+			updateState();
+			Engine.gp.repaint();
+
+			final long thisFinalFrame = System.nanoTime();
+			final long thisFinalTime = thisFinalFrame - lastFrame;
+			frameRate = 1000_000_000d / thisFinalTime;
+			lastFrame = thisFinalFrame;
 		}
 	}
 

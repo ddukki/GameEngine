@@ -170,10 +170,13 @@ public class TextFieldUI extends UIEntity
 
 	@Override
 	public void update() {
+		if (Engine.keyFocus != this && hbx != null)
+			return;
+
 		hbx = new RectangularHitbox(x, y, w, h);
 
 		// Increment the frame count and loop every 60 frames
-		fc = (fc + 1) % 60;
+		fc = (fc + 1) % Engine.FPS;
 
 		// Update the bounding box of the string onscreen
 		FontMetrics fm = Engine.gp.fm;
@@ -245,7 +248,7 @@ public class TextFieldUI extends UIEntity
 		g.setColor(Color.black);
 		g.drawString(s, sbx.x - fOffset, y + sbx.h);
 
-		if (fc < 30 && Engine.keyFocus == this) {
+		if (fc < Engine.FPS / 2 && Engine.keyFocus == this) {
 			g.drawLine(aPos, sbx.y + 2, aPos, sbx.y + sbx.h);
 		}
 

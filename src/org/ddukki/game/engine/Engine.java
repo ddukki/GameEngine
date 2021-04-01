@@ -1,7 +1,6 @@
 package org.ddukki.game.engine;
 
 import javax.swing.JFrame;
-import javax.swing.Timer;
 
 import org.ddukki.game.engine.states.QueueState;
 import org.ddukki.game.ui.events.reactors.KeyedReactor;
@@ -13,8 +12,6 @@ public class Engine extends JFrame {
 
 	public static int FPS = 60;
 
-	public static Timer t;
-
 	public static GamePanel gp = new GamePanel();
 
 	/** Only this entity should parse key events */
@@ -23,12 +20,7 @@ public class Engine extends JFrame {
 	public static Loop l = new Loop();
 
 	public Engine() {
-		final int delay = 1000 / FPS;
-		t = new Timer(delay, l);
-
 		setFocusTraversalKeysEnabled(false);
-
-		t.start();
 
 		// The frame has the key listener, as a JPanel seems to not respond
 		addKeyListener(gp);
@@ -38,6 +30,8 @@ public class Engine extends JFrame {
 		setSize(1600, 900);
 		setLocationRelativeTo(null);
 		setVisible(true);
+
+		l.start();
 	}
 
 	public static void main(String[] args) {
